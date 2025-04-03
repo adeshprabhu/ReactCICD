@@ -1,6 +1,6 @@
 FROM hshar/webapp
 
-RUN rm /var/www/html
+RUN rm -rf /var/www/html
 
 ADD ./index.html /var/www/html
 
