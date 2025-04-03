@@ -1,16 +1,19 @@
 FROM hshar/webapp
 
-RUN rm -rf /var/www/html
+# Install Apache (if not already installed)
+RUN apt update && apt install -y apache2
 
-COPY ./index.html /var/www/html
-
-FROM hshar/webapp
-
-# Remove existing HTML files but keep the directory
+# Remove existing web files
 RUN rm -rf /var/www/html/*
 
-# Ensure /var/www/html exists before copying
+# Ensure the directory exists
 RUN mkdir -p /var/www/html
 
-# Copy the index.html file into the directory
-ADD ./index.html /var/www/html/
+# Copy index.html into the container
+COPY index.html /var/www/html/
+
+# Expose Apache's default port
+EXPOSE 80
+
+# Start Apache in the foreground
+CMD ["apachectl", "-D", "FOREGROUND"]
